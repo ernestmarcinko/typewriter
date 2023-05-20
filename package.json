@@ -1,0 +1,26 @@
+{
+  "name": "@anag0/typewriter",
+  "version": "1.0.0",
+  "description": "TypeWriter effect in javascript",
+  "main": "typewriter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anag0/typewriter.git"
+  },
+  "keywords": [
+    "typewriter",
+    "typewriter",
+    "effect",
+    "matrix",
+    "effect"
+  ],
+  "author": "Ernest Marcinko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anag0/typewriter/issues"
+  },
+  "homepage": "https://github.com/anag0/typewriter#readme"
+}
