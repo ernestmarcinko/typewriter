@@ -11,21 +11,24 @@ jobs:
       permissions:
         contents: write
       steps:
+        - uses: actions/checkout@v2
         
         - name: SRC to DIST replacement
+          id: findandreplace
           uses: mad9000/actions-find-and-replace-string@3
           with:
             source: 'examples.html' 
             find: 'src/typewriter.' 
             replace: 'dist/typewriter.'
-  
-        - uses: actions/checkout@v2
+        - name: Replacements
+          run: echo "The replaced value is ${{ steps.findandreplace.outputs.value }}"
+          
+        
         - name: Auto Minify
           uses: nizarmah/auto-minify@v2.1
           with:
             directory: 'src'
             output: 'dist'
-
         - name: Auto committing minified files
           uses: stefanzweifel/git-auto-commit-action@v4
           with:
