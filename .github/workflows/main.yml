@@ -11,19 +11,17 @@ jobs:
       permissions:
         contents: write
       steps:
-        - uses: actions/checkout@v2
-        
-        - name: Replacements
-          run: |
-            sed -i 's/src\/typewriter\./dist\/typewriter\.min\./g' examples.html
-          
-        
         - name: Auto Minify
           uses: nizarmah/auto-minify@v2.1
           with:
             directory: 'src'
             output: 'dist'
-        - name: Auto committing minified files
+            
+        - name: Replacements
+          run: |
+            sed -i 's/src\/typewriter\./dist\/typewriter\.min\./g' examples.html
+            
+        - name: Auto committing changes
           uses: stefanzweifel/git-auto-commit-action@v4
           with:
             commit_message: "Github Action: Auto Minified JS and CSS files"
