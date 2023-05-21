@@ -77,7 +77,6 @@ class TypeWriter {
             content: attr(data-cursor);
             animation: blink 1s linear infinite;
         }
-        
         @keyframes blink {
             0% {
                 opacity: 0;
