@@ -6,34 +6,28 @@ on:
   workflow_dispatch:
 
 jobs:
-  examples:
+  build-and-commit:
       runs-on: ubuntu-latest
       permissions:
         contents: write
       steps:
+        
         - name: SRC to DIST replacement
           uses: mad9000/actions-find-and-replace-string@3
           with:
             source: 'examples.html' 
             find: 'src/typewriter.' 
             replace: 'dist/typewriter.'
-  build-and-commit:
-      runs-on: ubuntu-latest
-      permissions:
-        contents: write
-      steps:
-        # Checks-out your repository under $GITHUB_WORKSPACE, so auto-minify job can access it
+  
         - uses: actions/checkout@v2
-
         - name: Auto Minify
           uses: nizarmah/auto-minify@v2.1
           with:
             directory: 'src'
             output: 'dist'
 
-        # Auto commits minified files to the repository
-        # Ignore it if you don't want to commit the files to the repository 
         - name: Auto committing minified files
           uses: stefanzweifel/git-auto-commit-action@v4
           with:
             commit_message: "Github Action: Auto Minified JS and CSS files"
+            branch: ${{ github.ref }}
