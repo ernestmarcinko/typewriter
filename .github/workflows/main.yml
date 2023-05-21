@@ -6,7 +6,18 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  examples:
+      runs-on: ubuntu-latest
+      permissions:
+        contents: write
+      steps:
+        - name: SRC to DIST replacement
+          uses: mad9000/actions-find-and-replace-string@3
+          with:
+            source: 'examples.html' 
+            find: 'src/typewriter.' 
+            replace: 'dist/typewriter.'
+  build-and-commit:
       runs-on: ubuntu-latest
       permissions:
         contents: write
@@ -26,15 +37,3 @@ jobs:
           uses: stefanzweifel/git-auto-commit-action@v4
           with:
             commit_message: "Github Action: Auto Minified JS and CSS files"
-            
-  examples:
-      runs-on: ubuntu-latest
-      permissions:
-        contents: write
-      steps:
-        - name: SRC to DIST replacement
-          uses: mad9000/actions-find-and-replace-string@3
-          with:
-            source: 'examples.html' 
-            find: 'src/typewriter.' 
-            replace: 'dist/typewriter.'
