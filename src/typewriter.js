@@ -4,7 +4,8 @@ class TypeWriter {
         pauseMax: 230,
         keepBlinking: true,
         className: 'typewriter',
-        cursor: '|'
+        cursor: '|',
+        injectStyles: false
     };
     #params;
     #node;
@@ -14,6 +15,9 @@ class TypeWriter {
     constructor(node, params) {
         this.#node = node;
         this.#params = {...this.#defaults, ...params};
+        if ( this.#params.injectStyles ) {
+            this.#injectStyles();
+        }
         this.#node.classList.add(this.#params.className);
         this.#node.dataset['cursor'] = this.#params.cursor;
     }
@@ -65,6 +69,29 @@ class TypeWriter {
             'params': params
         });
         return this;
+    }
+
+    #injectStyles() {
+        const str = `
+        .${this.#params.className}:not(.noblink)::after {
+            content: attr(data-cursor);
+            animation: blink 1s linear infinite;
+        }
+        
+        @keyframes blink {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 0;
+            }
+            51% {
+                opacity: 1;
+            }
+        }`;
+        const style = document.createElement('style');
+        style.textContent = str;
+        document.head.append(style);
     }
 
     #start() {

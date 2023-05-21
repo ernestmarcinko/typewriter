@@ -1,6 +1,6 @@
 {
   "name": "@anag0/typewriter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TypeWriter effect in javascript",
   "main": "typewriter.js",
   "scripts": {
@@ -11,11 +11,22 @@
     "url": "git+https://github.com/anag0/typewriter.git"
   },
   "keywords": [
-    "typewriter",
+    "typewriter effect",
     "typewriter",
     "effect",
     "matrix",
-    "effect"
+    "effect",
+    "native typewriter",
+    "javascript typewriter",
+    "es6",
+    "es6 typewriter",
+    "native"
+  ],
+  "files": [
+    "dist",
+    "index.d.ts",
+    "LICENSE",
+    "readme.md"
   ],
   "author": "Ernest Marcinko",
   "license": "ISC",
