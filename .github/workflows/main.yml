@@ -13,15 +13,9 @@ jobs:
       steps:
         - uses: actions/checkout@v2
         
-        - name: SRC to DIST replacement
-          id: findandreplace
-          uses: mad9000/actions-find-and-replace-string@3
-          with:
-            source: 'examples.html' 
-            find: 'src/typewriter.' 
-            replace: 'dist/typewriter.'
         - name: Replacements
-          run: echo "The replaced value is ${{ steps.findandreplace.outputs.value }}"
+          run: |
+            sed -i 's/src\/typewriter\./dist\/typewriter\.min\./g' examples.html
           
         
         - name: Auto Minify
