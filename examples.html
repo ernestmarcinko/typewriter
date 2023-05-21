@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>TypeWriter Script Examples</title>
-    <link href="dist/typewriter.min.css" rel="stylesheet">
+    <link href="dist/typewriter.css" rel="stylesheet">
     <style>
         body {
             font-size: 2em;
@@ -17,14 +17,13 @@
 
     <p></p>
 
-    <script src="dist/typewriter.min.js"></script>
+    <script src="dist/typewriter.js"></script>
     <script>
-
         // Custom Cursor
         const tw = new TypeWriter(document.querySelector('h1'), {
             cursor: "\u25ae"
         });
-        tw.write('Hi').wait().delete(2).write('This is a typewriter script!');
+        tw.write('Hi').wait().delete(2).write('This is a simple typewriter script!');
 
         // Config Change Real-time
         const tw2 = new TypeWriter(document.querySelectorAll('p')[0], {
@@ -37,13 +36,11 @@
             .config({pauseMin: 50, pauseMax:50})
             .write('You can change the speed.');
 
-
-        // Custom Class Name with Style Injection    
+        // Custom Class
         const tw3 = new TypeWriter(document.querySelectorAll('p')[1], {
             pauseMin: 50,
             pauseMax: 100,
-            className: "myTypeWriter",
-            injectStyles: true,
+            className: "myTypeWriter"
         });
         tw3.write('This one has a custom class name and the styles are injected, so the CSS file is not needed.');
     </script>

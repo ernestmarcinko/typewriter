@@ -5,12 +5,13 @@ class TypeWriter {
         keepBlinking: true,
         className: 'typewriter',
         cursor: '|',
-        injectStyles: false
+        injectStyles: true
     };
     #params;
     #node;
     #tasks = [];
     #executing = false;
+    static #injectedStyles = {};
 
     constructor(node, params) {
         this.#node = node;
@@ -72,25 +73,14 @@ class TypeWriter {
     }
 
     #injectStyles() {
-        const str = `
-        .${this.#params.className}:not(.noblink)::after {
-            content: attr(data-cursor);
-            animation: blink 1s linear infinite;
+        if ( !TypeWriter.#injectedStyles[this.#params.className] ) {
+            const str = `
+            .${this.#params.className}:not(.noblink):after{animation:blink 1s linear infinite;content:attr(data-cursor)}@keyframes blink{0%{opacity:0}50%{opacity:0}51%{opacity:1}}`;
+            const style = document.createElement('style');
+            style.textContent = str;
+            document.head.append(style);
+            TypeWriter.#injectedStyles[this.#params.className] = true;
         }
-        @keyframes blink {
-            0% {
-                opacity: 0;
-            }
-            50% {
-                opacity: 0;
-            }
-            51% {
-                opacity: 1;
-            }
-        }`;
-        const style = document.createElement('style');
-        style.textContent = str;
-        document.head.append(style);
     }
 
     #start() {
@@ -152,3 +142,5 @@ class TypeWriter {
         return Math.random() * (max - min) + min;
     }
 }
+
+export default TypeWriter;
