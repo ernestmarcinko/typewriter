@@ -24,8 +24,7 @@
   ],
   "files": [
     "dist",
-    "index.d.ts",
-    "LICENSE",
+    "examples.html",
     "readme.md"
   ],
   "author": "Ernest Marcinko",
