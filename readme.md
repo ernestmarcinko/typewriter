@@ -1,6 +1,7 @@
 # TypeWriter javascript effect
 
 A super simple and very small TypeWriter javascript library, only about ~2KB
+[Live example](https://ernestmarcinko.com/typewriter/)
 
 ## Installation
 Use npm or yarn to install TypeWriter with a single command
@@ -48,6 +49,7 @@ typeWriter.wait(2000)
 | pauseMin | Integer | 170 | Mininum wait time before the next character |
 | pauseMax | Integer | 230 | Maximum wait time before the next character |
 | keepBlinking | Bool | true | Should the cursor remain after the text is printed |
+| autoStart | Bool | true | Should the tasks start right away. If false then use the ``start()`` method to start the tasks |
 | className | String | typewriter | The class name to be used for the element |
 | injectStyles | Bool | true | Should the typewriter CSS be injected to the header |
 
@@ -60,6 +62,29 @@ typeWriter.wait(2000)
 | wait | ``Int`` Milliseconds to wait | Waits for N milliseconds before continuing with the next task |
 | wipe | - | Deletes everything from the target node innerHTML property |
 | config | ``Object`` Configuration key => value pairs | Changes the configuration |
+
+## Callback functions
+These are added via the arguments (options).
+
+```javascript
+const typeWriter = new TypeWriter(node, {
+    onFinish: (node, params)=>{
+        console.log(node, params);
+    },
+    onStart: (node, params)=>{
+        console.log(node, params);
+    },
+    onTask: (task, node, params)=>{
+        console.log(task, node, params);
+    },
+});
+``` 
+
+| Name | Arguments | Description |
+| --- | --- | --- |
+| onStart | ``Element`` The Node, ``Object`` Options | Executes when the ``start()`` function is triggered |
+| onFinish | ``Element`` The Node, ``Object`` Options | Executes when no more tasks left in the queue |
+| onTask | ``Object`` Task, ``Element`` The Node, ``Object`` Options | Executes when a task is about to be executed from the queue |
 
 ## Examples
 
@@ -116,8 +141,6 @@ const typeWriter = new TypeWriter(document.querySelectorAll('p')[0], {
 
 You can also specify a custom wrapper class name:
 
-In that case the ``injectStyles`` option has to be false:
-
 ```javascript
 const typeWriter = new TypeWriter(document.querySelectorAll('p')[0], {
     className: "myCustomTypewriter"
@@ -125,3 +148,36 @@ const typeWriter = new TypeWriter(document.querySelectorAll('p')[0], {
 ```  
 
 If injectStyles is enabled, the className is automatically changed within the injected styles.
+
+### Chaining multiple TypeWriters via callbacks
+
+Using the ``onFinish`` and ``autoStart`` options you can chain the typewriter scripts together, so the next one is always started after the previous one finishes.
+
+```javascript
+const node1 = document.querySelector('#node1');
+const node2 = document.querySelector('#node2');
+const node3 = document.querySelector('#node3');
+
+const typeWriter1 = new TypeWriter(node1, {
+    autoStart: false,
+    keepBlinking: false,
+    onFinish: (node, params)=>{
+        typeWriter2.start()
+    },
+});
+const typeWriter2 = new TypeWriter(node2, {
+    autoStart: false,
+    keepBlinking: false,
+    onFinish: ()=>{
+        typeWriter3.start()
+    }
+});
+const typeWriter3 = new TypeWriter(node3, {
+    autoStart: false,
+    keepBlinking: false
+});
+
+typeWriter1.write('This is the first typewriter writing..').start();
+typeWriter2.write('..this is the second one..');
+typeWriter3.write('..and this is the third.');
+``` 

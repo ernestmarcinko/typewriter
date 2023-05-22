@@ -1,16 +1,21 @@
 class TypeWriter {
     #defaults = {
-        pauseMin: 170,
-        pauseMax: 230,
+        pauseMin: 100,
+        pauseMax: 170,
         keepBlinking: true,
         className: 'typewriter',
         cursor: '|',
-        injectStyles: true
+        injectStyles: true,
+        autoStart: true,
+        onStart: null,
+        onFinish: null,
+        onTask: null
     };
     #params;
     #node;
     #tasks = [];
     #executing = false;
+    #firstStart = true;
     static #injectedStyles = {};
 
     constructor(node, params) {
@@ -19,7 +24,6 @@ class TypeWriter {
         if ( this.#params.injectStyles ) {
             this.#injectStyles();
         }
-        this.#node.classList.add(this.#params.className);
         this.#node.dataset['cursor'] = this.#params.cursor;
     }
 
@@ -31,7 +35,9 @@ class TypeWriter {
                 'char': c
             })
         });
-        this.#start();
+        if ( this.#params.autoStart ) {
+            this.start();
+        }
         return this;
     }
 
@@ -42,7 +48,9 @@ class TypeWriter {
                 'all': false
             });
         }
-        this.#start();
+        if ( this.#params.autoStart ) {
+            this.start();
+        }
         return this;
     }
 
@@ -51,7 +59,9 @@ class TypeWriter {
             'type': 'wait',
             't': t
         });
-        this.#start();
+        if ( this.#params.autoStart ) {
+            this.start();
+        }
         return this;
     }
 
@@ -60,7 +70,9 @@ class TypeWriter {
             'type': 'delete',
             'all': true
         });
-        this.#start();
+        if ( this.#params.autoStart ) {
+            this.start();
+        }
         return this;
     }
 
@@ -70,6 +82,17 @@ class TypeWriter {
             'params': params
         });
         return this;
+    }
+
+    start() {
+        if ( this.#firstStart ) {
+            this.#node.classList.add(this.#params.className);
+            this.#firstStart = false;
+        }
+        if ( !this.#executing ) {
+            this.#params.onStart?.(this.#node, this.#params);
+            this.#execute();
+        }
     }
 
     #injectStyles() {
@@ -83,17 +106,13 @@ class TypeWriter {
         }
     }
 
-    #start() {
-        if ( !this.#executing ) {
-            this.#execute();
-        }
-    }
-
     #execute() {
         if ( this.#tasks.length > 0 ) {
             this.#executing = true;
             const task = this.#tasks.shift();
             let pause = this.#randomInt(this.#params.pauseMin, this.#params.pauseMax)
+
+            this.#params.onTask?.(task, this.#node, this.#params);
 
             if ( task.type == 'write' ) {
                 setTimeout(()=>{
@@ -133,6 +152,8 @@ class TypeWriter {
     }
 
     #finish() {
+        this.#params.onFinish?.(this.#node, this.#params);
+
         if ( !this.#params.keepBlinking ) {
             this.#node.classList.add('noblink');
         }

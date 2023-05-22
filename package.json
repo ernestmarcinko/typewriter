@@ -1,6 +1,6 @@
 {
   "name": "@anag0/typewriter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "TypeWriter effect in javascript",
   "main": "dist/typewriter.js",
   "scripts": {

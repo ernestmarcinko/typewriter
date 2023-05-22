@@ -17,6 +17,11 @@
 
     <p></p>
 
+    <h2>Chained TypeWriters</h2>
+    <p id="node1"></p>
+    <p id="node2"></p>
+    <p id="node3"></p>
+
     <script src="dist/typewriter.js"></script>
     <script>
         // Custom Cursor
@@ -43,6 +48,39 @@
             className: "myTypeWriter"
         });
         tw3.write('This one has a custom class name and the styles are injected, so the CSS file is not needed.');
+
+
+        // Chained Instances
+        const node1 = document.querySelector('#node1');
+        const node2 = document.querySelector('#node2');
+        const node3 = document.querySelector('#node3');
+
+        const typeWriter1 = new TypeWriter(node1, {
+            autoStart: false,
+            keepBlinking: false,
+            onFinish: (node, params)=>{
+                typeWriter2.start()
+            },
+            onStart: (node, params)=>{
+                console.log(node, params);
+            },
+            onTask: (task, node, params)=>{
+                console.log(task, node, params);
+            },
+        });
+        const typeWriter2 = new TypeWriter(node2, {
+            autoStart: false,
+            keepBlinking: false,
+            onFinish: ()=>{typeWriter3.start()}
+        });
+        const typeWriter3 = new TypeWriter(node3, {
+            autoStart: false,
+            keepBlinking: false
+        });
+
+        typeWriter1.write('This is the first typewriter writing..').start();
+        typeWriter2.write('..this is the second one..');
+        typeWriter3.write('..and this is the third.');
     </script>
 </body>
 </html>
