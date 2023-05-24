@@ -1,7 +1,8 @@
 # TypeWriter javascript effect
 
-A super simple and very small TypeWriter javascript library, only about ~2KB
-[Live example](https://ernestmarcinko.com/typewriter/)
+A super simple and very small TypeWriter javascript library, only about ~2KB.
+
+[Live examples](https://ernestmarcinko.com/typewriter/) | [YouTube](https://www.youtube.com/watch?v=SKs-_MSlSsE) | [npm](https://www.npmjs.com/package/@anag0/typewriter)
 
 ## Installation
 Use npm or yarn to install TypeWriter with a single command
@@ -12,7 +13,6 @@ npm i @anag0/typewriter
 
 # with yarn
 yarn add @anag0/typewriter
-
 ```
 ## Via CDN
 
